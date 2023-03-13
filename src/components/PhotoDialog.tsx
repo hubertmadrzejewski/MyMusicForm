@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {ImagePickerResponse} from 'react-native-image-picker/lib/typescript/types';
 import * as ImagePicker from 'react-native-image-picker';
+
 import {
   checkCameraPermission,
   // checkGalleryPermission,
@@ -69,7 +70,7 @@ const PhotoDialog: React.FC<Props> = ({
       picture.assets[0].height &&
       picture.assets[0].width
     ) {
-      let aspectRatio = picture.assets[0].height / picture.assets[0].width;
+      const aspectRatio = picture.assets[0].height / picture.assets[0].width;
       onSelectedPhoto(
         picture.assets[0].uri,
         picture.assets[0].fileName,
@@ -107,7 +108,7 @@ const PhotoDialog: React.FC<Props> = ({
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => _handleCloseModal()}>
-                <Text>X</Text>
+                <Text>{'X'}</Text>
               </TouchableOpacity>
             </View>
           </View>

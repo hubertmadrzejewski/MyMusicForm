@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import {
   Alert,
@@ -20,18 +13,21 @@ import {
   View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Picture} from './assets';
 
 import {Input, PhotoDialog} from './src/components';
+import {Picture} from './assets';
 
 const App = () => {
   const surnameInputRef = React.useRef<TextInput>(null);
+  const identificationNumberInputRef = React.useRef<TextInput>(null);
 
   const [name, setName] = React.useState<string>('');
   const [surname, setSurname] = React.useState<string>('');
   const [isCompany, setIsCompany] = React.useState<boolean>(false);
   const [identificationNumber, setIdentificationNumber] =
     React.useState<string>('');
+  const [picturePickerVisible, setPicturePickerVisible] =
+    React.useState<boolean>(false);
   const [pictureUri, setPictureUri] = React.useState<string | undefined | null>(
     null,
   );
@@ -44,8 +40,6 @@ const App = () => {
   const [pictureAspectRatio, setPictureAspectRatio] = React.useState<
     number | undefined | null
   >(null);
-  const [picturePickerVisible, setPicturePickerVisible] =
-    React.useState<boolean>(false);
 
   const validatePicture = () => {
     if (
@@ -190,7 +184,7 @@ const App = () => {
         <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}>
-          <Text style={styles.headerText}>Form</Text>
+          <Text style={styles.headerText}>{'Form'}</Text>
           <TouchableOpacity
             style={styles.pictureButton}
             onPress={() => setPicturePickerVisible(true)}>
@@ -219,12 +213,16 @@ const App = () => {
               setSurname(text);
             }}
             autoComplete="name-family"
+            onSubmitEditing={() => {
+              identificationNumberInputRef.current?.focus();
+            }}
           />
           <View style={styles.switchContainer}>
             <Switch value={isCompany} onValueChange={setIsCompany} />
-            <Text style={styles.text}>Company</Text>
+            <Text style={styles.text}>{'Company'}</Text>
           </View>
           <Input
+            ref={identificationNumberInputRef}
             style={styles.input}
             placeholderText={isCompany ? 'VAT' : 'PESEL'}
             value={identificationNumber}

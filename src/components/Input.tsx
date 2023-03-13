@@ -115,6 +115,7 @@ const Input = React.forwardRef<TextInput, Props>(
             style={styles.input}
             numberOfLines={numberOfLines}
             placeholder={placeholderText}
+            placeholderTextColor={'#dddddd'}
             onChangeText={text => {
               if (OnChangeText) {
                 OnChangeText(text);
