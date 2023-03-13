@@ -66,10 +66,11 @@ export const checkCameraPermission = (onSuccess: () => void) => {
 
 export const checkGalleryPermission = (onSuccess: () => void) => {
   if (Platform.OS === 'ios') {
-    request(PERMISSIONS.IOS.PHOTO_LIBRARY).then(result => {
+    request(PERMISSIONS.IOS.MEDIA_LIBRARY).then(result => {
       switch (result) {
         case RESULTS.UNAVAILABLE:
           Alert.alert('Error', 'Access unavailable');
+          console.log(result);
           console.log(
             'This feature is not available (on this device / in this context)',
           );

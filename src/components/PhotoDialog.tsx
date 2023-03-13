@@ -12,7 +12,7 @@ import {ImagePickerResponse} from 'react-native-image-picker/lib/typescript/type
 import * as ImagePicker from 'react-native-image-picker';
 import {
   checkCameraPermission,
-  checkGalleryPermission,
+  // checkGalleryPermission,
 } from '../utils/permissionUtils';
 
 type Props = {
@@ -21,6 +21,8 @@ type Props = {
   onSelectedPhoto: (
     photoUri: string | undefined,
     photoFileName: string | undefined,
+    photoType: string | undefined,
+    photoRatio: number | null | undefined,
   ) => void;
 };
 
@@ -38,9 +40,12 @@ const PhotoDialog: React.FC<Props> = ({
   };
 
   const _photoLibraryHandle = () => {
-    const libraryAccess = () =>
-      ImagePicker.launchImageLibrary({mediaType: 'photo'}, setPicture);
-    checkGalleryPermission(libraryAccess);
+    ImagePicker.launchImageLibrary({mediaType: 'photo'}, setPicture);
+    // const libraryAccess = () =>
+    // checkGalleryPermission(libraryAccess);
+    // RNPermissions.openLimitedPhotoLibraryPicker().catch(error => {
+    //   console.log(error);
+    // });
   };
 
   const _photoCameraHandle = () => {
@@ -57,8 +62,20 @@ const PhotoDialog: React.FC<Props> = ({
     if (!picture) {
       return;
     }
-    if (picture.assets && picture.assets[0] && picture.assets[0].uri) {
-      onSelectedPhoto(picture.assets[0].uri, picture.assets[0].fileName);
+    if (
+      picture.assets &&
+      picture.assets[0] &&
+      picture.assets[0].uri &&
+      picture.assets[0].height &&
+      picture.assets[0].width
+    ) {
+      let aspectRatio = picture.assets[0].height / picture.assets[0].width;
+      onSelectedPhoto(
+        picture.assets[0].uri,
+        picture.assets[0].fileName,
+        picture.assets[0].type,
+        aspectRatio,
+      );
       _handleCloseModal();
       return;
     }
